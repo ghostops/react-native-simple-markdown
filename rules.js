@@ -86,7 +86,7 @@ export default (styles) => ({
         key: state.key,
         resizeMode: styles.resizeMode ? styles.resizeMode : 'contain',
         source: { uri: node.target },
-        style: node.target.match(/youtu|vimeo/) ? styles.video : styles.image
+        style: (node.target && node.target.match(/youtu|vimeo/)) ? styles.video : styles.image
       })
     }
   },
@@ -106,7 +106,7 @@ export default (styles) => ({
         Linking.openURL(url).catch(error => console.warn('An error occurred: ', error))
       }
       return createElement(Text, {
-        style: node.target.match(/@/) ? styles.mailTo : styles.link,
+        style: (node.target && node.target.match(/@/)) ? styles.mailTo : styles.link,
         key: state.key,
         onPress: () => openUrl(node.target)
       }, output(node.content, state))
@@ -122,7 +122,7 @@ export default (styles) => ({
         else {
           bullet = createElement(Text, { key: state.key, style: styles.listItemBullet }, styles.listItemBulletType ? `${styles.listItemBulletType} ` : '\u2022 ')
         }
-        const listItemText = createElement(Text, { key: state.key + 1, style: styles.listItemText }, output(item, state))
+        const listItemText = createElement(View, { key: state.key + 1, style: styles.listItemText }, output(item, state))
         return createElement(View, {
           key: i,
           style: styles.listItem
